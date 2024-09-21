@@ -252,9 +252,9 @@ func (c *Converter) accountToAPIAccountPublic(ctx context.Context, a *gtsmodel.A
 	//   - Last status time
 
 	var (
-		followersCount = *a.Stats.FollowersCount
-		followingCount = *a.Stats.FollowingCount
-		statusesCount  = *a.Stats.StatusesCount
+//		followersCount = *a.Stats.FollowersCount
+//		followingCount = *a.Stats.FollowingCount
+//		statusesCount  = *a.Stats.StatusesCount
 		lastStatusAt   = func() *string {
 			if a.Stats.LastStatusAt.IsZero() {
 				return nil
@@ -370,9 +370,9 @@ func (c *Converter) accountToAPIAccountPublic(ctx context.Context, a *gtsmodel.A
 		Header:            headerURL,
 		HeaderStatic:      headerURLStatic,
 		HeaderDescription: headerDesc,
-		FollowersCount:    followersCount,
-		FollowingCount:    followingCount,
-		StatusesCount:     statusesCount,
+//		FollowersCount:    followersCount,
+//		FollowingCount:    followingCount,
+//		StatusesCount:     statusesCount,
 		LastStatusAt:      lastStatusAt,
 		Emojis:            apiEmojis,
 		Fields:            fields,
@@ -1321,15 +1321,15 @@ func (c *Converter) baseStatusToFrontend(
 		return nil, gtserror.Newf("error counting replies: %w", err)
 	}
 
-	reblogsCount, err := c.state.DB.CountStatusBoosts(ctx, s.ID)
-	if err != nil {
-		return nil, gtserror.Newf("error counting reblogs: %w", err)
-	}
+//	reblogsCount, err := c.state.DB.CountStatusBoosts(ctx, s.ID)
+//	if err != nil {
+//		return nil, gtserror.Newf("error counting reblogs: %w", err)
+//	}
 
-	favesCount, err := c.state.DB.CountStatusFaves(ctx, s.ID)
-	if err != nil {
-		return nil, gtserror.Newf("error counting faves: %w", err)
-	}
+//	favesCount, err := c.state.DB.CountStatusFaves(ctx, s.ID)
+//	if err != nil {
+//		return nil, gtserror.Newf("error counting faves: %w", err)
+//	}
 
 	apiAttachments, err := c.convertAttachmentsToAPIAttachments(ctx, s.Attachments, s.AttachmentIDs)
 	if err != nil {
@@ -1378,8 +1378,8 @@ func (c *Converter) baseStatusToFrontend(
 		URI:                s.URI,
 		URL:                s.URL,
 		RepliesCount:       repliesCount,
-		ReblogsCount:       reblogsCount,
-		FavouritesCount:    favesCount,
+//		ReblogsCount:       reblogsCount,
+//		FavouritesCount:    favesCount,
 		Content:            s.Content,
 		Reblog:             nil, // Set below.
 		Application:        nil, // Set below.
