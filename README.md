@@ -5,6 +5,10 @@
 
 GoToSocial is an [ActivityPub](https://activitypub.rocks/) social network server, written in Golang.
 
+> :information: This is a fork of GoToSocial for use with the [Website League](https://websiteleague.org).
+>
+> Currently, these patches are quick-n-dirty to disable public timelines and Numbers:tm: to make the experience more in line with Cohost. We intend to eventually upstream these changes in some form.
+
 With GoToSocial, you can keep in touch with your friends, post, read, and share images and articles. All without being tracked or advertised to!
 
 <p align="middle">
@@ -332,7 +336,7 @@ Instructions for building GoToSocial from source are in the [CONTRIBUTING.md](ht
 
 ### Third-party Packaging
 
-Thank you so much to the cool people who have put time and energy into packaging GoToSocial! 
+Thank you so much to the cool people who have put time and energy into packaging GoToSocial!
 
 These packages are not maintained by GoToSocial, so please direct questions and issues to the repository maintainers (and donate to them!).
 
