@@ -1,0 +1,109 @@
+# based on the upstream drone ci file
+# (https://github.com/superseriousbusiness/gotosocial/blob/main/.drone.yml)
+
+stages:
+  - lint
+  - build
+  - release
+
+# run this pipeline for:
+workflow:
+  rules:
+    # merge requests
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # manually from web ui
+    - if: $CI_PIPELINE_SOURCE == "web"
+    # tags
+    - if: $CI_COMMIT_TAG
+    # and not for any other kind of pushes
+    - if: $CI_PIPELINE_SOURCE == "push"
+      when: never
+
+# common cache setups for langs
+.web_setup:
+  image: node:18-alpine
+  before_script:
+    - echo 'yarn-offline-mirror ".yarn-cache/"' >> web/source/.yarnrc
+    - echo 'yarn-offline-mirror-pruning true' >> web/source/.yarnrc
+    - yarn --cwd web/source install --frozen-lockfile
+    - yarn --cwd web/source ts-patch install # https://typia.io/docs/setup/#manual-setup
+  cache:
+    key:
+      files:
+        - web/source/yarn.lock
+    paths:
+      - web/source/.yarn-cache/
+
+# source: https://gitlab.com/-/snippets/3636166
+.go_cache:
+  variables:
+    GOMODCACHE: $CI_PROJECT_DIR/.gomodcache
+  before_script:
+    - mkdir -p ${GOMODCACHE}
+  cache:
+    key:
+      files:
+        - go.sum
+    paths:
+      - ${GOMODCACHE}/
+
+lint:
+  stage: lint
+  extends: .go_cache
+  image: golangci/golangci-lint:v1.57.2
+  script:
+    - golangci-lint run --timeout=10m
+
+test:
+  stage: lint
+  extends: .go_cache
+  image: golang:1.22-alpine
+  variables:
+    CGO_ENABLED: "0"
+  script:
+    - apk update --no-cache && apk add git
+    - go test -failfast -timeout=20m -tags "netgo osusergo static_build kvformat timetzdata" ./...
+    - ./test/envparsing.sh
+    - ./test/swagger.sh
+  dependencies:
+    - lint
+  allow_failure: true # our Numbers patches break the tests
+
+web_lint:
+  stage: lint
+  extends: .web_setup
+  script:
+    - yarn --cwd ./web/source lint
+
+web_build:
+  stage: build
+  extends: .web_setup
+  script:
+    - yarn --cwd ./web/source build
+  artifacts: # persist these to later jobs
+    paths:
+      - web/source/assets/
+      - web/source/template/
+
+release:
+  stage: release
+  extends: .go_cache
+  rules:
+    # only do releases for tags
+    - if: $CI_COMMIT_TAG
+  image: superseriousbusiness/gotosocial-drone-build:0.6.0 # https://github.com/superseriousbusiness/gotosocial-drone-build
+  services:
+    - docker:stable-dind
+  variables:
+    # docker-in-docker settings
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    # goreleaser will make gitlab releases if token envvar is present, use job token for that
+    GITLAB_TOKEN: $CI_JOB_TOKEN
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - git fetch --tags
+    - goreleaser release --clean
+  dependencies:
+    - web_build
+    # - test # reenable dependency when tests work again
