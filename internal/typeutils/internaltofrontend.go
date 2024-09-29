@@ -252,9 +252,9 @@ func (c *Converter) accountToAPIAccountPublic(ctx context.Context, a *gtsmodel.A
 	//   - Last status time
 
 	var (
-		//		followersCount = *a.Stats.FollowersCount
-		//		followingCount = *a.Stats.FollowingCount
-		//		statusesCount  = *a.Stats.StatusesCount
+		// followersCount = *a.Stats.FollowersCount
+		// followingCount = *a.Stats.FollowingCount
+		// statusesCount  = *a.Stats.StatusesCount
 		lastStatusAt = func() *string {
 			if a.Stats.LastStatusAt.IsZero() {
 				return nil
