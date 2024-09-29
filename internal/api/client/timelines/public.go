@@ -111,6 +111,7 @@ func (m *Module) PublicTimelineGETHandler(c *gin.Context) {
 	var authed *oauth.Auth
 	var err error
 
+	//nolint:staticcheck
 	if config.GetInstanceExposePublicTimeline() {
 		// If the public timeline is allowed to be exposed, still check if we
 		// can extract various authentication properties, but don't require them.
@@ -118,6 +119,8 @@ func (m *Module) PublicTimelineGETHandler(c *gin.Context) {
 	} else {
 		authed, err = oauth.Authed(c, true, true, true, true)
 	}
+
+	err = gtserror.New("public timeline disabled on this instance") // sirocyl - disable public timeline by force
 
 	if err != nil {
 		apiutil.ErrorHandler(c, gtserror.NewErrorUnauthorized(err, err.Error()), m.processor.InstanceGetV1)
