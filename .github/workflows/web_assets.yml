@@ -37,8 +37,8 @@ jobs:
           command: c
           cwd: .
           files: |
-            web/assets/**/*
-            web/template/**/*
+            web/assets
+            web/template
           outPath: web_assets.tar.gz
 
       - name: release
