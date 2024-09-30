@@ -35,7 +35,7 @@ jobs:
         id: compress
         with:
           command: c
-          cwd: ./test
+          cwd: .
           files: |
             web/assets/**/*
             web/template/**/*
