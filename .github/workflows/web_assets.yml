@@ -30,12 +30,22 @@ jobs:
       - name: build
         run: yarn --cwd ./web/source build
 
-      - name: Release
+      - name: pack web_assets
+        uses: a7ul/tar-action@v1.1.0
+        id: compress
+        with:
+          command: c
+          cwd: ./test
+          files: |
+            web/assets/**/*
+            web/template/**/*
+          outPath: web_assets.tar.gz
+
+      - name: release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           prerelease: true
           fail_on_unmatched_files: true
           files: |
-            web/assets/**/*
-            web/template/**/*
+            web_assets.tar.gz
