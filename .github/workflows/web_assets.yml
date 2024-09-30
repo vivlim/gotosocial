@@ -30,6 +30,10 @@ jobs:
       - name: build
         run: yarn --cwd ./web/source build
 
+      - name: copy LICENSE into web assets
+        run: |
+          cp LICENSE web/LICENSE
+
       - name: pack web_assets
         uses: a7ul/tar-action@v1.1.0
         id: compress
@@ -39,6 +43,7 @@ jobs:
           files: |
             web/assets
             web/template
+            web/LICENSE
           outPath: web_assets.tar.gz
 
       - name: release
