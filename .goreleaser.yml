@@ -379,3 +379,9 @@ changelog:
       order: 3
     - title: Other
       order: 999
+
+gitlab_urls:
+  # GITLAB_TOKEN is set to CI_JOB_TOKEN
+  use_job_token: true
+  # upload packages to Package Registry instead of attachments
+  use_package_registry: true
