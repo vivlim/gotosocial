@@ -38,24 +38,9 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - freebsd
     goarch:
-      - 386
       - amd64
-      - arm
       - arm64
-    goarm:
-      - 6
-      - 7
-    ignore:
-      # Build FreeBSD
-      # only for amd64.
-      - goos: freebsd
-        goarch: arm64
-      - goos: freebsd
-        goarch: arm
-      - goos: freebsd
-        goarch: 386
     mod_timestamp: "{{ .CommitTimestamp }}"
   # MODERNC SQLITE BINARY BUILDS
   -
@@ -81,24 +66,9 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - freebsd
     goarch:
-      - 386
       - amd64
-      - arm
       - arm64
-    goarm:
-      - 6
-      - 7
-    ignore:
-      # Build FreeBSD
-      # only for amd64.
-      - goos: freebsd
-        goarch: arm64
-      - goos: freebsd
-        goarch: arm
-      - goos: freebsd
-        goarch: 386
     mod_timestamp: "{{ .CommitTimestamp }}"
 
 # https://goreleaser.com/customization/docker/
@@ -140,54 +110,6 @@ dockers:
     - "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-arm64v8{{ end }}"
     build_flag_templates:
     - "--platform=linux/arm64/v8"
-    - "--label=org.opencontainers.image.created={{.Date}}"
-    - "--label=org.opencontainers.image.title={{.ProjectName}}"
-    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-    - "--label=org.opencontainers.image.version={{.Version}}"
-    extra_files:
-    - web
-    - go.mod
-    - go.sum
-    - cmd
-    - internal
-  -
-    use: buildx
-    goos: linux
-    goarch: arm
-    goarm: 6
-    id: armv6
-    ids:
-    - gotosocial
-    image_templates:
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv6"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv6"
-    - "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv6{{ end }}"
-    build_flag_templates:
-    - "--platform=linux/arm/v6"
-    - "--label=org.opencontainers.image.created={{.Date}}"
-    - "--label=org.opencontainers.image.title={{.ProjectName}}"
-    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-    - "--label=org.opencontainers.image.version={{.Version}}"
-    extra_files:
-    - web
-    - go.mod
-    - go.sum
-    - cmd
-    - internal
-  -
-    use: buildx
-    goos: linux
-    goarch: arm
-    goarm: 7
-    id: armv7
-    ids:
-    - gotosocial
-    image_templates:
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv7"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv7"
-    - "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv7{{ end }}"
-    build_flag_templates:
-    - "--platform=linux/arm/v7"
     - "--label=org.opencontainers.image.created={{.Date}}"
     - "--label=org.opencontainers.image.title={{.ProjectName}}"
     - "--label=org.opencontainers.image.revision={{.FullCommit}}"
@@ -245,95 +167,33 @@ dockers:
     - go.sum
     - cmd
     - internal
-  -
-    use: buildx
-    goos: linux
-    goarch: arm
-    goarm: 6
-    id: armv6-moderncsqlite
-    ids:
-    - gotosocial_moderncsqlite
-    image_templates:
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv6-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv6-moderncsqlite"
-    - "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv6-moderncsqlite{{ end }}"
-    build_flag_templates:
-    - "--platform=linux/arm/v6"
-    - "--label=org.opencontainers.image.created={{.Date}}"
-    - "--label=org.opencontainers.image.title={{.ProjectName}}"
-    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-    - "--label=org.opencontainers.image.version={{.Version}}"
-    extra_files:
-    - web
-    - go.mod
-    - go.sum
-    - cmd
-    - internal
-  -
-    use: buildx
-    goos: linux
-    goarch: arm
-    goarm: 7
-    id: armv7-moderncsqlite
-    ids:
-    - gotosocial_moderncsqlite
-    image_templates:
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv7-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv7-moderncsqlite"
-    - "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv7-moderncsqlite{{ end }}"
-    build_flag_templates:
-    - "--platform=linux/arm/v7"
-    - "--label=org.opencontainers.image.created={{.Date}}"
-    - "--label=org.opencontainers.image.title={{.ProjectName}}"
-    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-    - "--label=org.opencontainers.image.version={{.Version}}"
-    extra_files:
-    - web
-    - go.mod
-    - go.sum
-    - cmd
-    - internal
-
-# https://goreleaser.com/customization/docker_manifest/
 docker_manifests:
   # DEFAULT WASM SQLITE BUILDS
   - name_template: "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}"
     image_templates:
     - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-amd64"
     - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-arm64v8"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv6"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv7"
   - name_template: "{{ .Env.CI_REGISTRY_IMAGE }}:latest"
     image_templates:
     - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-amd64"
     - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-arm64v8"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv6"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv7"
   - name_template: "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot{{ end }}"
     image_templates:
     - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-amd64"
     - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-arm64v8"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv6"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv7"
   # MODERNC SQLITE BUILDS
   - name_template: "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite"
     image_templates:
     - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-amd64-moderncsqlite"
     - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-arm64v8-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv6-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-armv7-moderncsqlite"
   - name_template: "{{ .Env.CI_REGISTRY_IMAGE }}:latest-moderncsqlite"
     image_templates:
     - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-amd64-moderncsqlite"
     - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-arm64v8-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv6-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:latest-armv7-moderncsqlite"
   - name_template: "{{ if .IsSnapshot }}{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-moderncsqlite{{ end }}"
     image_templates:
     - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-amd64-moderncsqlite"
     - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-arm64v8-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv6-moderncsqlite"
-    - "{{ .Env.CI_REGISTRY_IMAGE }}:snapshot-armv7-moderncsqlite"
 
 # https://goreleaser.com/customization/archive/
 archives:
@@ -470,11 +330,13 @@ release:
     | ------- | ----------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
     | Linux   | x86-64/AMD64 (64-bit)   | 🟢 Full                            | [linux_amd64.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_amd64.tar.gz)                                 | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}`               |
     | Linux   | Armv8/ARM64 (64-bit)    | 🟢 Full                            | [linux_arm64.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_arm64.tar.gz)                                 | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}`               |
+    <!-- not building these platforms currently:
     | FreeBSD | x86-64/AMD64 (64-bit)   | 🟢 Full<sup>[1](#freebsd)</sup>    | [freebsd_amd64_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_freebsd_amd64_moderncsqlite.tar.gz) | None provided                                               |
     | Linux   | x86-32/i386 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_386_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_386_moderncsqlite.tar.gz)         | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
     | Linux   | Armv7/ARM32 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_armv7_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_armv7_moderncsqlite.tar.gz)     | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
     | Linux   | Armv6/ARM32 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_armv6_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_armv7_moderncsqlite.tar.gz)     | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
     | Linux   | x86-32/i386 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_386_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_386_moderncsqlite.tar.gz)         | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
+    -->
 
     #### FreeBSD
 
