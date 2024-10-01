@@ -77,7 +77,7 @@ function UserProfileForm({ data: profile }) {
 			maxPinnedFields: instance?.configuration?.accounts?.max_profile_fields ?? 6
 		};
 	}, [instance]);
-	
+
 	// Parse out available theme options into nice format.
 	const { data: themes } = useAccountThemesQuery();
 	const themeOptions = useMemo(() => {
@@ -257,10 +257,10 @@ function UserProfileForm({ data: profile }) {
 				field={form.enableRSS}
 				label="Enable RSS feed of posts."
 			/>
-			<Checkbox
+			{/* <Checkbox
 				field={form.hideCollections}
 				label="Hide who you follow / are followed by."
-			/>
+			/> */}
 
 			<div className="form-section-docs">
 				<h3>Advanced</h3>

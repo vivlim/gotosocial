@@ -83,8 +83,8 @@ func (p *Processor) OutboxGet(
 
 	switch {
 
-	case *receivingAcct.Settings.HideCollections ||
-		receivingAcct.IsInstance():
+	case true: /* *receivingAcct.Settings.HideCollections ||
+		receivingAcct.IsInstance(): */
 		// If account that hides collections, or instance
 		// account (ie., can't post / have relationships),
 		// just return barest stub of collection.
@@ -223,8 +223,8 @@ func (p *Processor) FollowersGet(
 
 	switch {
 
-	case receivingAcct.IsInstance() ||
-		*receivingAcct.Settings.HideCollections:
+	case true: /* receivingAcct.IsInstance() ||
+		*receivingAcct.Settings.HideCollections: */
 		// If account that hides collections, or instance
 		// account (ie., can't post / have relationships),
 		// just return barest stub of collection.
@@ -334,8 +334,8 @@ func (p *Processor) FollowingGet(ctx context.Context, requestedUser string, page
 	params.ID = collectionID
 
 	switch {
-	case receivingAcct.IsInstance() ||
-		*receivingAcct.Settings.HideCollections:
+	case true: /* receivingAcct.IsInstance() ||
+		*receivingAcct.Settings.HideCollections: */
 		// If account that hides collections, or instance
 		// account (ie., can't post / have relationships),
 		// just return barest stub of collection.

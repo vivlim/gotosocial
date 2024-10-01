@@ -90,5 +90,9 @@ func (m *Module) AccountGETHandler(c *gin.Context) {
 		return
 	}
 
+	// hide followers/following count
+	acctInfo.FollowersCount = 0
+	acctInfo.FollowingCount = 0
+
 	apiutil.JSON(c, http.StatusOK, acctInfo)
 }

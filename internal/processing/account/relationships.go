@@ -45,8 +45,8 @@ func (p *Processor) FollowersGet(ctx context.Context, requestingAccount *gtsmode
 	// but instead the list for a local account that has
 	// hide_followers set, just return an empty array.
 	if targetAccountID != requestingAccount.ID &&
-		targetAccount.IsLocal() &&
-		*targetAccount.Settings.HideCollections {
+		targetAccount.IsLocal() { /* &&
+		*targetAccount.Settings.HideCollections { */
 		return paging.EmptyResponse(), nil
 	}
 
@@ -104,8 +104,8 @@ func (p *Processor) FollowingGet(ctx context.Context, requestingAccount *gtsmode
 	// but instead the list for a local account that has
 	// hide_followers set, just return an empty array.
 	if targetAccountID != requestingAccount.ID &&
-		targetAccount.IsLocal() &&
-		*targetAccount.Settings.HideCollections {
+		targetAccount.IsLocal() { /* &&
+		*targetAccount.Settings.HideCollections { */
 		return paging.EmptyResponse(), nil
 	}
 
