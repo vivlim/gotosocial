@@ -30,17 +30,18 @@
         </li>
         <li id="version">
             <a
-                href="https://github.com/superseriousbusiness/gotosocial"
+                href="https://gitlab.com/website-league/gotosocial"
                 class="nounderline"
                 rel="nofollow noreferrer noopener"
                 target="_blank"
             >
                 <span aria-hidden="true">🦥</span>
                 Source - GoToSocial {{ .instance.Version }}
+                (Website League patched)
                 <span aria-hidden="true">🦥</span>
             </a>
         </li>
-        {{- if .instance.ContactAccount }} 
+        {{- if .instance.ContactAccount }}
         <li id="contact">
             <a
                 href="/@{{- .instance.ContactAccount.Username -}}"
@@ -50,7 +51,7 @@
             </a>
         </li>
         {{- end }}
-        {{- if .instance.Email }} 
+        {{- if .instance.Email }}
         <li id="email">
             <a
                 href="mailto:{{- .instance.Email -}}"
