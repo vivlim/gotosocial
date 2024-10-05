@@ -373,15 +373,15 @@ func (c *Converter) accountToAPIAccountPublic(ctx context.Context, a *gtsmodel.A
 		//FollowersCount:    followersCount,
 		//FollowingCount:    followingCount,
 		//StatusesCount:     statusesCount,
-		LastStatusAt:      lastStatusAt,
-		Emojis:            apiEmojis,
-		Fields:            fields,
-		Suspended:         !a.SuspendedAt.IsZero(),
-		Theme:             theme,
-		CustomCSS:         customCSS,
-		EnableRSS:         enableRSS,
-		HideCollections:   hideCollections,
-		Roles:             roles,
+		LastStatusAt:    lastStatusAt,
+		Emojis:          apiEmojis,
+		Fields:          fields,
+		Suspended:       !a.SuspendedAt.IsZero(),
+		Theme:           theme,
+		CustomCSS:       customCSS,
+		EnableRSS:       enableRSS,
+		HideCollections: hideCollections,
+		Roles:           roles,
 	}
 
 	// Bodge default avatar + header in,
@@ -1380,17 +1380,17 @@ func (c *Converter) baseStatusToFrontend(
 		RepliesCount:       repliesCount,
 		// ReblogsCount:       reblogsCount,
 		// FavouritesCount:    favesCount,
-		Content:            s.Content,
-		Reblog:             nil, // Set below.
-		Application:        nil, // Set below.
-		Account:            nil, // Caller must do this.
-		MediaAttachments:   apiAttachments,
-		Mentions:           apiMentions,
-		Tags:               apiTags,
-		Emojis:             apiEmojis,
-		Card:               nil, // TODO: implement cards
-		Text:               s.Text,
-		InteractionPolicy:  *apiInteractionPolicy,
+		Content:           s.Content,
+		Reblog:            nil, // Set below.
+		Application:       nil, // Set below.
+		Account:           nil, // Caller must do this.
+		MediaAttachments:  apiAttachments,
+		Mentions:          apiMentions,
+		Tags:              apiTags,
+		Emojis:            apiEmojis,
+		Card:              nil, // TODO: implement cards
+		Text:              s.Text,
+		InteractionPolicy: *apiInteractionPolicy,
 	}
 
 	// Nullable fields.

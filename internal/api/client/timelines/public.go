@@ -120,8 +120,6 @@ func (m *Module) PublicTimelineGETHandler(c *gin.Context) {
 		authed, err = oauth.Authed(c, true, true, true, true)
 	}
 
-	err = gtserror.New("public timeline disabled on this instance") // sirocyl - disable public timeline by force
-
 	if err != nil {
 		apiutil.ErrorHandler(c, gtserror.NewErrorUnauthorized(err, err.Error()), m.processor.InstanceGetV1)
 		return
@@ -148,6 +146,12 @@ func (m *Module) PublicTimelineGETHandler(c *gin.Context) {
 	local, errWithCode := apiutil.ParseLocal(c.Query(apiutil.LocalKey), false)
 	if errWithCode != nil {
 		apiutil.ErrorHandler(c, errWithCode, m.processor.InstanceGetV1)
+		return
+	}
+
+	if !(local && config.GetInstanceEnableLocalTimeline()) {
+		err = gtserror.New("public timeline disabled on this instance")
+		apiutil.ErrorHandler(c, gtserror.NewErrorUnauthorized(err, err.Error()), m.processor.InstanceGetV1)
 		return
 	}
 

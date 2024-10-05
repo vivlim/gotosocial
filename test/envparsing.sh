@@ -101,6 +101,7 @@ EXPECT=$(cat << "EOF"
         "tls-insecure-skip-verify": false
     },
     "instance-deliver-to-shared-inboxes": false,
+    "instance-enable-local-timeline": false,
     "instance-expose-peers": true,
     "instance-expose-public-timeline": true,
     "instance-expose-suspended": true,
