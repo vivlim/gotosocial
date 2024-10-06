@@ -393,6 +393,12 @@ instance-expose-suspended-web: false
 # Default: false
 instance-expose-public-timeline: false
 
+# Bool. Allow users to view the instance's local timeline. /api/v1/timelines/public with
+# local=true. Returns unauthorized for those requests if false.
+# Options: [true, false]
+# Default: false
+instance-enable-local-timeline: false
+
 # Bool. This flag tweaks whether GoToSocial will deliver ActivityPub messages
 # to the shared inbox of a recipient, if one is available, instead of delivering
 # each message to each actor who should receive a message individually.
