@@ -105,7 +105,7 @@ release:
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - git fetch --tags
-    - GORELEASER_PREVIOUS_TAG=$(git tag -l | grep -v "rc\|${CI_COMMIT_REF_NAME}" | sort -V -r | head -n 1) goreleaser release --clean
+    - GORELEASER_PREVIOUS_TAG=$(git tag -l | grep wl | grep -v "rc\|${CI_COMMIT_REF_NAME}" | sort -V -r | head -n 1) goreleaser release --clean
   dependencies:
     - web_build
     - test

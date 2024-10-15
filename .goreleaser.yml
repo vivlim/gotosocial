@@ -363,8 +363,11 @@ release:
 
 # https://goreleaser.com/customization/changelog/
 changelog:
-  use: gitlab
+  use: git
   groups:
+    - title: Website League patches
+      regexp: '^patch:.*$'
+      order: 0
     - title: Features and performance
       regexp: '^.*\[(?:feature|performance).*\].*$'
       order: 0
