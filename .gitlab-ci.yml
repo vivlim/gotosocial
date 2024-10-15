@@ -92,7 +92,7 @@ release:
   rules:
     # only do releases for tags
     - if: $CI_COMMIT_TAG
-  image: superseriousbusiness/gotosocial-drone-build:0.6.0 # https://github.com/superseriousbusiness/gotosocial-drone-build
+  image: superseriousbusiness/gotosocial-drone-build:0.6.2 # https://github.com/superseriousbusiness/gotosocial-drone-build
   services:
     - name: docker:25-dind
       # explicitly disable TLS with flag (otherwise there is a 15s startup delay)
@@ -105,7 +105,7 @@ release:
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - git fetch --tags
-    - goreleaser release --clean
+    - GORELEASER_PREVIOUS_TAG=$(git tag -l | grep -v "rc\|${CI_COMMIT_REF_NAME}" | sort -V -r | head -n 1) goreleaser release --clean
   dependencies:
     - web_build
     - test
