@@ -399,6 +399,29 @@ instance-expose-public-timeline: false
 # Default: false
 instance-enable-local-timeline: false
 
+# Bool. Allows users to see totals for followed accounts, following accounts, and statuses
+# when clients query account information.
+# Options: [true, false]
+# Default: false
+instance-show-user-stats: false
+
+# Bool. Allows users to see collections of followed accounts, and following accounts
+# when clients query account information.
+# Options: [true, false]
+# Default: false
+instance-show-user-relationships: false
+
+# Bool. Allows users to see totals for boosts and faves when clients query status information.
+# Options: [true, false]
+# Default: false
+instance-show-post-stats: false
+
+# Bool. Allows users to see collections of boosts and faves when clients query status
+# information.
+# Options: [true, false]
+# Default: false
+instance-show-post-activities: false
+
 # Bool. This flag tweaks whether GoToSocial will deliver ActivityPub messages
 # to the shared inbox of a recipient, if one is available, instead of delivering
 # each message to each actor who should receive a message individually.

@@ -24,6 +24,7 @@ import (
 
 	"github.com/superseriousbusiness/gotosocial/internal/ap"
 	apimodel "github.com/superseriousbusiness/gotosocial/internal/api/model"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/db"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 	"github.com/superseriousbusiness/gotosocial/internal/gtsmodel"
@@ -221,6 +222,12 @@ func (p *Processor) FaveRemove(ctx context.Context, requestingAccount *gtsmodel.
 
 // FavedBy returns a slice of accounts that have liked the given status, filtered according to privacy settings.
 func (p *Processor) FavedBy(ctx context.Context, requestingAccount *gtsmodel.Account, targetStatusID string) ([]*apimodel.Account, gtserror.WithCode) {
+	// bail if we don't show these
+	if !config.GetInstanceShowPostActivities() {
+		err := errors.New("FavedBy: viewing is disabled")
+		return nil, gtserror.NewErrorNotFound(err)
+	}
+
 	targetStatus, errWithCode := p.c.GetVisibleTargetStatus(ctx,
 		requestingAccount,
 		targetStatusID,

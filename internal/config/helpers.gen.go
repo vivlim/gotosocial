@@ -950,6 +950,106 @@ func GetInstanceEnableLocalTimeline() bool { return global.GetInstanceEnableLoca
 // SetInstanceEnableLocalTimeline safely sets the value for global configuration 'InstanceEnableLocalTimeline' field
 func SetInstanceEnableLocalTimeline(v bool) { global.SetInstanceEnableLocalTimeline(v) }
 
+// GetInstanceShowUserStats safely fetches the Configuration value for state's 'InstanceShowUserStats' field
+func (st *ConfigState) GetInstanceShowUserStats() (v bool) {
+	st.mutex.RLock()
+	v = st.config.InstanceShowUserStats
+	st.mutex.RUnlock()
+	return
+}
+
+// SetInstanceShowUserStats safely sets the Configuration value for state's 'InstanceShowUserStats' field
+func (st *ConfigState) SetInstanceShowUserStats(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.InstanceShowUserStats = v
+	st.reloadToViper()
+}
+
+// InstanceShowUserStatsFlag returns the flag name for the 'InstanceShowUserStats' field
+func InstanceShowUserStatsFlag() string { return "instance-show-user-stats" }
+
+// GetInstanceShowUserStats safely fetches the value for global configuration 'InstanceShowUserStats' field
+func GetInstanceShowUserStats() bool { return global.GetInstanceShowUserStats() }
+
+// SetInstanceShowUserStats safely sets the value for global configuration 'InstanceShowUserStats' field
+func SetInstanceShowUserStats(v bool) { global.SetInstanceShowUserStats(v) }
+
+// GetInstanceShowUserRelationships safely fetches the Configuration value for state's 'InstanceShowUserRelationships' field
+func (st *ConfigState) GetInstanceShowUserRelationships() (v bool) {
+	st.mutex.RLock()
+	v = st.config.InstanceShowUserRelationships
+	st.mutex.RUnlock()
+	return
+}
+
+// SetInstanceShowUserRelationships safely sets the Configuration value for state's 'InstanceShowUserRelationships' field
+func (st *ConfigState) SetInstanceShowUserRelationships(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.InstanceShowUserRelationships = v
+	st.reloadToViper()
+}
+
+// InstanceShowUserRelationshipsFlag returns the flag name for the 'InstanceShowUserRelationships' field
+func InstanceShowUserRelationshipsFlag() string { return "instance-show-user-relationships" }
+
+// GetInstanceShowUserRelationships safely fetches the value for global configuration 'InstanceShowUserRelationships' field
+func GetInstanceShowUserRelationships() bool { return global.GetInstanceShowUserRelationships() }
+
+// SetInstanceShowUserRelationships safely sets the value for global configuration 'InstanceShowUserRelationships' field
+func SetInstanceShowUserRelationships(v bool) { global.SetInstanceShowUserRelationships(v) }
+
+// GetInstanceShowPostStats safely fetches the Configuration value for state's 'InstanceShowPostStats' field
+func (st *ConfigState) GetInstanceShowPostStats() (v bool) {
+	st.mutex.RLock()
+	v = st.config.InstanceShowPostStats
+	st.mutex.RUnlock()
+	return
+}
+
+// SetInstanceShowPostStats safely sets the Configuration value for state's 'InstanceShowPostStats' field
+func (st *ConfigState) SetInstanceShowPostStats(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.InstanceShowPostStats = v
+	st.reloadToViper()
+}
+
+// InstanceShowPostStatsFlag returns the flag name for the 'InstanceShowPostStats' field
+func InstanceShowPostStatsFlag() string { return "instance-show-post-stats" }
+
+// GetInstanceShowPostStats safely fetches the value for global configuration 'InstanceShowPostStats' field
+func GetInstanceShowPostStats() bool { return global.GetInstanceShowPostStats() }
+
+// SetInstanceShowPostStats safely sets the value for global configuration 'InstanceShowPostStats' field
+func SetInstanceShowPostStats(v bool) { global.SetInstanceShowPostStats(v) }
+
+// GetInstanceShowPostActivities safely fetches the Configuration value for state's 'InstanceShowPostActivities' field
+func (st *ConfigState) GetInstanceShowPostActivities() (v bool) {
+	st.mutex.RLock()
+	v = st.config.InstanceShowPostActivities
+	st.mutex.RUnlock()
+	return
+}
+
+// SetInstanceShowPostActivities safely sets the Configuration value for state's 'InstanceShowPostActivities' field
+func (st *ConfigState) SetInstanceShowPostActivities(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.InstanceShowPostActivities = v
+	st.reloadToViper()
+}
+
+// InstanceShowPostActivitiesFlag returns the flag name for the 'InstanceShowPostActivities' field
+func InstanceShowPostActivitiesFlag() string { return "instance-show-post-activities" }
+
+// GetInstanceShowPostActivities safely fetches the value for global configuration 'InstanceShowPostActivities' field
+func GetInstanceShowPostActivities() bool { return global.GetInstanceShowPostActivities() }
+
+// SetInstanceShowPostActivities safely sets the value for global configuration 'InstanceShowPostActivities' field
+func SetInstanceShowPostActivities(v bool) { global.SetInstanceShowPostActivities(v) }
+
 // GetInstanceDeliverToSharedInboxes safely fetches the Configuration value for state's 'InstanceDeliverToSharedInboxes' field
 func (st *ConfigState) GetInstanceDeliverToSharedInboxes() (v bool) {
 	st.mutex.RLock()

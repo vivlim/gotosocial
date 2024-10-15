@@ -85,6 +85,10 @@ type Configuration struct {
 	InstanceExposeSuspendedWeb     bool               `name:"instance-expose-suspended-web" usage:"Expose list of suspended instances as webpage on /about/suspended"`
 	InstanceExposePublicTimeline   bool               `name:"instance-expose-public-timeline" usage:"Allow unauthenticated users to query /api/v1/timelines/public"`
 	InstanceEnableLocalTimeline    bool               `name:"instance-enable-local-timeline" usage:"Allow users to see the local timeline"`
+	InstanceShowUserStats          bool               `name:"instance-show-user-stats" usage:"Allows total counts of followed accounts, following accounts, and statuses, to show in the client"`
+	InstanceShowUserRelationships  bool               `name:"instance-show-user-relationships" usage:"Allows lists of followed accounts and following accouts to show in the client"`
+	InstanceShowPostStats          bool               `name:"instance-show-post-stats" usage:"Allows totals of faves and reblogs to show in the client"`
+	InstanceShowPostActivities     bool               `name:"instance-show-post-activities" usage:"Allows lists of faves and reblogs to show in the client"`
 	InstanceDeliverToSharedInboxes bool               `name:"instance-deliver-to-shared-inboxes" usage:"Deliver federated messages to shared inboxes, if they're available."`
 	InstanceInjectMastodonVersion  bool               `name:"instance-inject-mastodon-version" usage:"This injects a Mastodon compatible version in /api/v1/instance to help Mastodon clients that use that version for feature detection"`
 	InstanceLanguages              language.Languages `name:"instance-languages" usage:"BCP47 language tags for the instance. Used to indicate the preferred languages of instance residents (in order from most-preferred to least-preferred)."`

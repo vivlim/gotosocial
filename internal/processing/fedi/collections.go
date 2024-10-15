@@ -25,6 +25,7 @@ import (
 
 	"github.com/superseriousbusiness/activity/streams/vocab"
 	"github.com/superseriousbusiness/gotosocial/internal/ap"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/db"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 	"github.com/superseriousbusiness/gotosocial/internal/log"
@@ -83,8 +84,9 @@ func (p *Processor) OutboxGet(
 
 	switch {
 
-	case true: /* *receivingAcct.Settings.HideCollections ||
-		receivingAcct.IsInstance(): */
+	case !config.GetInstanceShowUserRelationships() ||
+		*receivingAcct.Settings.HideCollections ||
+		receivingAcct.IsInstance():
 		// If account that hides collections, or instance
 		// account (ie., can't post / have relationships),
 		// just return barest stub of collection.
@@ -223,8 +225,9 @@ func (p *Processor) FollowersGet(
 
 	switch {
 
-	case true: /* receivingAcct.IsInstance() ||
-		*receivingAcct.Settings.HideCollections: */
+	case !config.GetInstanceShowUserRelationships() ||
+		receivingAcct.IsInstance() ||
+		*receivingAcct.Settings.HideCollections:
 		// If account that hides collections, or instance
 		// account (ie., can't post / have relationships),
 		// just return barest stub of collection.

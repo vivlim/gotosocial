@@ -113,6 +113,10 @@ EXPECT=$(cat << "EOF"
         "nl",
         "en-GB"
     ],
+    "instance-show-post-activities": false,
+    "instance-show-post-stats": false,
+    "instance-show-user-relationships": false,
+    "instance-show-user-stats": false,
     "landing-page-user": "admin",
     "letsencrypt-cert-dir": "/gotosocial/storage/certs",
     "letsencrypt-email-address": "",

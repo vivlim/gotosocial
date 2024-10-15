@@ -24,6 +24,7 @@ import (
 
 	"github.com/superseriousbusiness/gotosocial/internal/ap"
 	apimodel "github.com/superseriousbusiness/gotosocial/internal/api/model"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/db"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 	"github.com/superseriousbusiness/gotosocial/internal/gtsmodel"
@@ -214,6 +215,12 @@ func (p *Processor) BoostRemove(
 
 // StatusBoostedBy returns a slice of accounts that have boosted the given status, filtered according to privacy settings.
 func (p *Processor) StatusBoostedBy(ctx context.Context, requestingAccount *gtsmodel.Account, targetStatusID string) ([]*apimodel.Account, gtserror.WithCode) {
+	// bail if we don't show these
+	if !config.GetInstanceShowPostActivities() {
+		err := errors.New("BoostedBy: viewing is disabled")
+		return nil, gtserror.NewErrorNotFound(err)
+	}
+
 	targetStatus, err := p.state.DB.GetStatusByID(ctx, targetStatusID)
 	if err != nil {
 		wrapped := fmt.Errorf("BoostedBy: error fetching status %s: %s", targetStatusID, err)

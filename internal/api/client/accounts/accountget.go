@@ -23,6 +23,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	apiutil "github.com/superseriousbusiness/gotosocial/internal/api/util"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 	"github.com/superseriousbusiness/gotosocial/internal/oauth"
 )
@@ -91,8 +92,10 @@ func (m *Module) AccountGETHandler(c *gin.Context) {
 	}
 
 	// hide followers/following count
-	acctInfo.FollowersCount = 0
-	acctInfo.FollowingCount = 0
+	if !config.GetInstanceShowUserStats() {
+		acctInfo.FollowersCount = 0
+		acctInfo.FollowingCount = 0
+	}
 
 	apiutil.JSON(c, http.StatusOK, acctInfo)
 }

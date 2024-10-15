@@ -22,6 +22,7 @@ import (
 	"errors"
 
 	apimodel "github.com/superseriousbusiness/gotosocial/internal/api/model"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/db"
 	"github.com/superseriousbusiness/gotosocial/internal/gtserror"
 	"github.com/superseriousbusiness/gotosocial/internal/gtsmodel"
@@ -41,12 +42,13 @@ func (p *Processor) FollowersGet(ctx context.Context, requestingAccount *gtsmode
 		return paging.EmptyResponse(), nil
 	}
 
+	hideCollections := !config.GetInstanceShowUserRelationships() || *targetAccount.Settings.HideCollections
 	// If account isn't requesting its own followers list,
 	// but instead the list for a local account that has
 	// hide_followers set, just return an empty array.
 	if targetAccountID != requestingAccount.ID &&
-		targetAccount.IsLocal() { /* &&
-		*targetAccount.Settings.HideCollections { */
+		targetAccount.IsLocal() &&
+		hideCollections {
 		return paging.EmptyResponse(), nil
 	}
 

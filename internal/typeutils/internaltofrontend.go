@@ -252,16 +252,22 @@ func (c *Converter) accountToAPIAccountPublic(ctx context.Context, a *gtsmodel.A
 	//   - Last status time
 
 	var (
-		// followersCount = *a.Stats.FollowersCount
-		// followingCount = *a.Stats.FollowingCount
-		// statusesCount  = *a.Stats.StatusesCount
-		lastStatusAt = func() *string {
+		followersCount = 0
+		followingCount = 0
+		statusesCount  = 0
+		lastStatusAt   = func() *string {
 			if a.Stats.LastStatusAt.IsZero() {
 				return nil
 			}
 			return util.Ptr(util.FormatISO8601Date(a.Stats.LastStatusAt))
 		}()
 	)
+
+	if config.GetInstanceShowUserStats() {
+		followersCount = *a.Stats.FollowersCount
+		followingCount = *a.Stats.FollowingCount
+		statusesCount = *a.Stats.StatusesCount
+	}
 
 	// Profile media + nice extras:
 	//   - Avatar
@@ -370,18 +376,18 @@ func (c *Converter) accountToAPIAccountPublic(ctx context.Context, a *gtsmodel.A
 		Header:            headerURL,
 		HeaderStatic:      headerURLStatic,
 		HeaderDescription: headerDesc,
-		//FollowersCount:    followersCount,
-		//FollowingCount:    followingCount,
-		//StatusesCount:     statusesCount,
-		LastStatusAt:    lastStatusAt,
-		Emojis:          apiEmojis,
-		Fields:          fields,
-		Suspended:       !a.SuspendedAt.IsZero(),
-		Theme:           theme,
-		CustomCSS:       customCSS,
-		EnableRSS:       enableRSS,
-		HideCollections: hideCollections,
-		Roles:           roles,
+		FollowersCount:    followersCount,
+		FollowingCount:    followingCount,
+		StatusesCount:     statusesCount,
+		LastStatusAt:      lastStatusAt,
+		Emojis:            apiEmojis,
+		Fields:            fields,
+		Suspended:         !a.SuspendedAt.IsZero(),
+		Theme:             theme,
+		CustomCSS:         customCSS,
+		EnableRSS:         enableRSS,
+		HideCollections:   hideCollections,
+		Roles:             roles,
 	}
 
 	// Bodge default avatar + header in,
@@ -1321,15 +1327,20 @@ func (c *Converter) baseStatusToFrontend(
 		return nil, gtserror.Newf("error counting replies: %w", err)
 	}
 
-	// reblogsCount, err := c.state.DB.CountStatusBoosts(ctx, s.ID)
-	// if err != nil {
-	// 	return nil, gtserror.Newf("error counting reblogs: %w", err)
-	// }
+	var reblogsCount = 0
+	var favesCount = 0
 
-	// favesCount, err := c.state.DB.CountStatusFaves(ctx, s.ID)
-	// if err != nil {
-	// 	return nil, gtserror.Newf("error counting faves: %w", err)
-	// }
+	if config.GetInstanceShowPostStats() {
+		reblogsCount, err = c.state.DB.CountStatusBoosts(ctx, s.ID)
+		if err != nil {
+			return nil, gtserror.Newf("error counting reblogs: %w", err)
+		}
+
+		favesCount, err = c.state.DB.CountStatusFaves(ctx, s.ID)
+		if err != nil {
+			return nil, gtserror.Newf("error counting faves: %w", err)
+		}
+	}
 
 	apiAttachments, err := c.convertAttachmentsToAPIAttachments(ctx, s.Attachments, s.AttachmentIDs)
 	if err != nil {
@@ -1378,19 +1389,19 @@ func (c *Converter) baseStatusToFrontend(
 		URI:                s.URI,
 		URL:                s.URL,
 		RepliesCount:       repliesCount,
-		// ReblogsCount:       reblogsCount,
-		// FavouritesCount:    favesCount,
-		Content:           s.Content,
-		Reblog:            nil, // Set below.
-		Application:       nil, // Set below.
-		Account:           nil, // Caller must do this.
-		MediaAttachments:  apiAttachments,
-		Mentions:          apiMentions,
-		Tags:              apiTags,
-		Emojis:            apiEmojis,
-		Card:              nil, // TODO: implement cards
-		Text:              s.Text,
-		InteractionPolicy: *apiInteractionPolicy,
+		ReblogsCount:       reblogsCount,
+		FavouritesCount:    favesCount,
+		Content:            s.Content,
+		Reblog:             nil, // Set below.
+		Application:        nil, // Set below.
+		Account:            nil, // Caller must do this.
+		MediaAttachments:   apiAttachments,
+		Mentions:           apiMentions,
+		Tags:               apiTags,
+		Emojis:             apiEmojis,
+		Card:               nil, // TODO: implement cards
+		Text:               s.Text,
+		InteractionPolicy:  *apiInteractionPolicy,
 	}
 
 	// Nullable fields.
