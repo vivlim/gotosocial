@@ -265,9 +265,8 @@ release:
 
     ## Release highlights
 
-    - Pee pee
-    - Poo poo
-    - Wee wee
+    - foo
+    - bar
 
     ## Migration notes
 
@@ -299,8 +298,8 @@ release:
 
     The configuration file has changed since the previous release.
 
-    - Changed `pee pee` to `poo poo`.
-    - Changed `wee wee` to `more wee wee`.
+    - Added setting `foo`.
+    - Changed `bar` to baz`.
 
     You can see a diff of the config file here: {{ .Env.CI_PROJECT_URL }}/compare/{{ .PreviousTag }}...{{ .Tag }}#diff-c071e03510b2c57e193a44503fd9528a785f0f411497cc75841a9f8d0b1ac622
 
@@ -336,7 +335,6 @@ release:
     | Linux   | Armv7/ARM32 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_armv7_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_armv7_moderncsqlite.tar.gz)     | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
     | Linux   | Armv6/ARM32 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_armv6_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_armv7_moderncsqlite.tar.gz)     | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
     | Linux   | x86-32/i386 (32-bit)    | 🟡 Partial<sup>[2](#32-bit)</sup>  | [linux_386_moderncsqlite.tar.gz]({{ .Env.CI_PROJECT_URL }}/-/releases/downloads/{{ .Tag }}/gotosocial_{{ .Version }}_linux_386_moderncsqlite.tar.gz)         | `{{ .Env.CI_REGISTRY_IMAGE }}:{{ .Version }}-moderncsqlite` |
-    -->
 
     #### FreeBSD
 
@@ -360,6 +358,8 @@ release:
     media-remote-max-size: 0
     media-emoji-remote-max-size: 0
     ```
+
+    -->
 
 # https://goreleaser.com/customization/changelog/
 changelog:
