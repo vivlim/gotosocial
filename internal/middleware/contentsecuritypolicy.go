@@ -86,9 +86,14 @@ func BuildContentSecurityPolicy(extraURIs ...string) string {
 	// include extraURIs, and 'blob:'
 	// for previewing uploaded images
 	// (header, avi, emojis) in settings.
+	// TODO: Reading config.GetAllowEmbeddedImagesInPosts() doesn't seem to get the right value here - need to investigate why.
+	// For now I've just made it always allow images served over https regardless of config
 	values[imgSrc] = append(
-		[]string{self, blob},
-		extraURIs...,
+		append(
+			[]string{self, blob},
+			extraURIs...,
+		),
+		"https:", // Allow any image served over https.
 	)
 
 	/*

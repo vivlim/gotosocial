@@ -23,6 +23,7 @@ import (
 	"strings"
 
 	"github.com/microcosm-cc/bluemonday"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 )
 
 // Regular HTML policy is an adapted version of the default
@@ -142,13 +143,18 @@ var regular *bluemonday.Policy = func() *bluemonday.Policy {
 	// See: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel#nofollow
 	p.RequireNoFollowOnFullyQualifiedLinks(true)
 
-	// Force crossorigin="anonymous"
-	// See: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin#anonymous
-	p.RequireCrossOriginAnonymous(true)
-
 	// Force target="_blank".
 	// See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target
 	p.AddTargetBlankToFullyQualifiedLinks(true)
+
+	if config.GetAllowEmbeddedImagesInPosts() {
+		p.AllowImages()
+		p.AllowDataURIImages()
+	} else {
+		// Force crossorigin="anonymous"
+		// See: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin#anonymous
+		p.RequireCrossOriginAnonymous(true)
+	}
 
 	return p
 }()
