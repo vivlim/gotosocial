@@ -23,6 +23,7 @@ import (
 	"strings"
 
 	"github.com/microcosm-cc/bluemonday"
+	"github.com/superseriousbusiness/gotosocial/internal/config"
 )
 
 // Regular HTML policy is an adapted version of the default
@@ -149,6 +150,11 @@ var regular *bluemonday.Policy = func() *bluemonday.Policy {
 	// Force target="_blank".
 	// See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target
 	p.AddTargetBlankToFullyQualifiedLinks(true)
+
+	if config.GetAllowEmbeddedImagesInPosts() {
+		p.AllowImages()
+		p.AllowDataURIImages()
+	}
 
 	return p
 }()

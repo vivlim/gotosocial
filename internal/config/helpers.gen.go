@@ -4425,3 +4425,28 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
 
+// GetAllowEmbeddedImagesInPosts safely fetches the Configuration value for state's 'AllowEmbeddedImagesInPosts' field
+func (st *ConfigState) GetAllowEmbeddedImagesInPosts() (v bool) {
+	st.mutex.RLock()
+	v = st.config.AllowEmbeddedImagesInPosts
+	st.mutex.RUnlock()
+	return
+}
+
+// SetAllowEmbeddedImagesInPosts safely sets the Configuration value for state's 'AllowEmbeddedImagesInPosts' field
+func (st *ConfigState) SetAllowEmbeddedImagesInPosts(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.AllowEmbeddedImagesInPosts = v
+	st.reloadToViper()
+}
+
+// AllowEmbeddedImagesInPostsFlag returns the flag name for the 'AllowEmbeddedImagesInPosts' field
+func AllowEmbeddedImagesInPostsFlag() string { return "allow-embedded-images" }
+
+// GetAllowEmbeddedImagesInPosts safely fetches the value for global configuration 'AllowEmbeddedImagesInPosts' field
+func GetAllowEmbeddedImagesInPosts() bool { return global.GetAllowEmbeddedImagesInPosts() }
+
+// SetAllowEmbeddedImagesInPosts safely sets the value for global configuration 'AllowEmbeddedImagesInPosts' field
+func SetAllowEmbeddedImagesInPosts(v bool) { global.SetAllowEmbeddedImagesInPosts(v) }
+
