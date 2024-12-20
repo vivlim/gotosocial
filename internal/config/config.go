@@ -189,6 +189,8 @@ type Configuration struct {
 	AdminMediaListRemoteOnly bool   `name:"remote-only" usage:"list only remote attachments/emojis; if specified then local-only cannot also be true"`
 
 	RequestIDHeader string `name:"request-id-header" usage:"Header to extract the Request ID from. Eg.,'X-Request-Id'."`
+
+	AllowEmbeddedImagesInPosts bool `name:"allow-embedded-images" usage:"allow posts to contain images, instead of sanitizing them. enabling this means that users can be tracked by the servers that embedded images are hosted on."`
 }
 
 type HTTPClientConfiguration struct {

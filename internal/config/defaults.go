@@ -137,6 +137,7 @@ var Defaults = Configuration{
 	AdvancedSenderMultiplier:     2, // 2 senders per CPU
 	AdvancedCSPExtraURIs:         []string{},
 	AdvancedHeaderFilterMode:     RequestHeaderFilterModeDisabled,
+	AllowEmbeddedImagesInPosts:   true,
 
 	Cache: CacheConfiguration{
 		// Rough memory target that the total
